@@ -2,7 +2,15 @@
 
 [简体中文](README_ZH.md)
 
-**MIT 开源**（中文说明见 [README_ZH.md](README_ZH.md)）：任何人可自由使用、修改与分发。本项目将 Waveshare ESP32-S3 AMOLED 开发板变成可语音对话、审批 AI 指令、查看电脑资源的「Pager」手表，并通过 Windows 上的 **Pager Bridge** 连接 Hermes、Cursor、Codex、Claude、WorkBuddy 等 ACP 智能体。
+**MIT 开源** · **ESP32-S3** · **AMOLED 智能手表** · **语音助手** · **AI Agent 遥控器**
+
+任何人可自由使用、修改与分发。本项目把 [Waveshare ESP32-S3-Touch-AMOLED](https://www.waveshare.com/esp32-s3-touch-amoled-2.16.htm)（2.16" 480×480 方屏 / 1.75" 466×466 圆屏）做成可 **PTT 按住说话**、在手表上 **审批 AI 工具调用**、查看 **PC CPU/GPU** 的 Pager 终端；Windows 端 **Pager Bridge**（Python / FastAPI）通过 **ACP** 连接 **Hermes、Cursor、Codex、Claude、WorkBuddy** 等编程智能体。固件：**ESP-IDF 5.5** + **LVGL** + **ESP-Brookesia**。
+
+<details>
+<summary>搜索关键词 / Keywords（便于在 GitHub 与搜索引擎中找到本仓库）</summary>
+
+`ESP32 Pager` · `esp32-pager` · `ESP32-S3 AMOLED` · `Waveshare AMOLED` · `AI watch` · `AI agent hardware` · `voice PTT` · `编程智能体` · `AI 手表` · `Cursor ACP` · `Hermes agent` · `FastAPI bridge` · `LVGL watch` · `Brookesia` · `开源硬件` · `open source wearable`
+</details>
 
 > 固件上游基于 [Waveshare ESP32-S3-Touch-AMOLED-2.16 官方仓库](https://gitee.com/waveshare/ESP32-S3-Touch-AMOLED-2.16)（见 [docs/WAVESHARE_README.md](docs/WAVESHARE_README.md)）。圆屏 1.75C 为同系列 BSP + 本地补丁（[ROUND_BSP_PATCH.md](examples/esp-idf/03_esp-brookesia/patches/ROUND_BSP_PATCH.md)）。
 
