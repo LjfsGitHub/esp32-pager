@@ -33,13 +33,6 @@
   <img src="docs/gallery/device-square-host-stats.png" alt="方屏电脑资源" width="240" />
 </p>
 
-**1.75C 圆屏（466×466）真机** — 主页 / 审批：
-
-<p>
-  <img src="docs/gallery/device-round-home.png" alt="圆屏主页" width="240" />
-  <img src="docs/gallery/device-round-approval.png" alt="圆屏审批" width="240" />
-</p>
-
 配对流程：
 
 ![设备配对](docs/gallery/device-pairing.png)

@@ -10,8 +10,6 @@
 | [ui-l3-swipe.png](ui-l3-swipe.png) | L3 审批（需回 PC 批准） |
 | [device-square-home.png](device-square-home.png) | 2.16" 方屏 AMOLED — 主页（真机截图） |
 | [device-square-host-stats.png](device-square-host-stats.png) | 2.16" — 电脑资源页 |
-| [device-round-home.png](device-round-home.png) | 1.75C 圆屏 — 主页 |
-| [device-round-approval.png](device-round-approval.png) | 1.75C — 审批页 |
 | [device-pairing.png](device-pairing.png) | 配对 / 配网流程 |
 
 硬件产品图（Waveshare 官方）：[../assets/ESP32-S3-Touch-AMOLED-2.16-details-1.jpg](../assets/ESP32-S3-Touch-AMOLED-2.16-details-1.jpg)
