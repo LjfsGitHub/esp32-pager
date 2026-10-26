@@ -6,6 +6,46 @@
 
 ---
 
+## 界面预览
+
+### PC Web 管理端（Agent Center）
+
+本地浏览器打开 `http://127.0.0.1:8765/`：配对、发指令、看会话与主机指标；左侧设备预览与手表三页 UI 一致。
+
+![Pager Web Agent Center](docs/gallery/web-agent-center.png)
+
+### 支持的开发板（Waveshare AMOLED）
+
+![ESP32-S3-Touch-AMOLED-2.16](docs/assets/ESP32-S3-Touch-AMOLED-2.16-details-1.jpg)
+
+### 手表端 UI（与 Web 对齐）
+
+设计预览：
+
+![Pager UI v3 预览](docs/gallery/ui-v3-preview.png)
+
+**2.16" 方屏（480×480）真机** — 主页 / 电脑资源：
+
+<p>
+  <img src="docs/gallery/device-square-home.png" alt="方屏主页" width="240" />
+  <img src="docs/gallery/device-square-host-stats.png" alt="方屏电脑资源" width="240" />
+</p>
+
+**1.75C 圆屏（466×466）真机** — 主页 / 审批：
+
+<p>
+  <img src="docs/gallery/device-round-home.png" alt="圆屏主页" width="240" />
+  <img src="docs/gallery/device-round-approval.png" alt="圆屏审批" width="240" />
+</p>
+
+配对流程：
+
+![设备配对](docs/gallery/device-pairing.png)
+
+更多截图见 [docs/gallery/](docs/gallery/) 与 [docs/pager/assets/](docs/pager/assets/)。
+
+---
+
 ## 支持的硬件
 
 | Git 分支 | 开发板 | 屏幕 | PTT 侧键 | 备注 |
