@@ -1,0 +1,53 @@
+{
+  "scenes": [
+    "boot",
+    "home",
+    "provision",
+    "wifi",
+    "pair"
+  ],
+  "fingerprints": {
+    "boot": "f877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dc",
+    "home": "f877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dcf877777703e604dc",
+    "provision": "fddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987afddc987a",
+    "wifi": "e9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1fe9e73e1f",
+    "pair": "fdc91e3f1a6cdfdfdfdfdfdfdfdfdfdfdf55fdc91e3f1a6cdfdfdfdfdfdfdfdfdfdfdf55fdc91e3f1a6cdfdfdfdfdfdfdfdfdfdfdf55fdc91e3f1a6cdfdfdfdf"
+  },
+  "ui_metrics": {
+    "boot": {
+      "ok": true,
+      "spread": 245,
+      "mean_lum": 132.8,
+      "blank": false,
+      "low_contrast": false
+    },
+    "home": {
+      "ok": true,
+      "spread": 245,
+      "mean_lum": 132.8,
+      "blank": false,
+      "low_contrast": false
+    },
+    "provision": {
+      "ok": true,
+      "spread": 131,
+      "mean_lum": 186.8,
+      "blank": false,
+      "low_contrast": false
+    },
+    "wifi": {
+      "ok": true,
+      "spread": 202,
+      "mean_lum": 139.2,
+      "blank": false,
+      "low_contrast": false
+    },
+    "pair": {
+      "ok": true,
+      "spread": 227,
+      "mean_lum": 175.5,
+      "blank": false,
+      "low_contrast": false
+    }
+  }
+}

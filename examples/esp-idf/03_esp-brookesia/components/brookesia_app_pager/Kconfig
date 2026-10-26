@@ -1,0 +1,10 @@
+menu "Pager App"
+
+    config PAGER_QA
+        bool "Enable Pager QA harness (autostart, HTTP /qa, serial commands)"
+        default n
+        help
+            Enables automated test hooks: auto-launch Pager, /qa/* HTTP endpoints
+            on the provisioning portal, and optional serial qa.* commands.
+
+endmenu

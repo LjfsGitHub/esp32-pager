@@ -1,0 +1,8 @@
+version: 0.1.0
+dependencies:
+  brookesia_core:
+    public: true
+  espressif/esp_websocket_client: "*"
+  espressif/mdns: "*"
+  idf:
+    version: ">=5.1.0"

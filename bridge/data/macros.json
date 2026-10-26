@@ -1,0 +1,7 @@
+{
+  "echo_ok": {
+    "label": "自检",
+    "cmd": "echo pager macro ok",
+    "cwd": ""
+  }
+}
