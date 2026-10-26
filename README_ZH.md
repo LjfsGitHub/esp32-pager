@@ -2,7 +2,11 @@
 
 [English](README.md)
 
-> 下方为 Waveshare 2.16 开发板原厂说明保留档；Pager 项目总览与截图见 [README.md](README.md) 与 [docs/gallery/](docs/gallery/)。
+**ESP32-S3 开源手表** · **AMOLED 触摸屏** · **AI 编程助手硬件** · **语音 PTT** · **Cursor / Hermes 桥接**
+
+完整说明、截图与协作方式见 **[README.md](README.md)**（英文主文档，含搜索关键词）。界面图：[docs/gallery/](docs/gallery/)。
+
+> 下方为 Waveshare 2.16 开发板原厂说明保留档。
 
 <div align="center">
   <h1>ESP32-S3-Touch-AMOLED-2.16</h1>
