@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f1ede4">
+<title>Pager · Agent Remote / 硬件仿真</title>
+<link rel="stylesheet" href="/static/pager.css?v=22">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark">P</div>
+      <div>
+        <span class="brand-name">PAGER</span>
+        <span class="brand-sub">AGENT REMOTE / HARDWARE SIM</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="local-chip"><span class="dot"></span>LOCAL ONLY · 127.0.0.1</span>
+      <label class="vol-ctl" for="watchVoice">声音
+        <select id="watchVoice" aria-label="手表播报声线">
+          <option value="xiaoxiao">晓晓</option>
+          <option value="xiaoyi">晓伊</option>
+          <option value="yunxi">云希</option>
+          <option value="moss">MOSS · 舱内</option>
+        </select>
+      </label>
+      <label class="vol-ctl" for="watchVol">音量
+        <input id="watchVol" type="range" min="0" max="100" step="5" value="75" aria-label="手表喇叭音量">
+        <b id="watchVolNum">75</b>
+      </label>
+      <div class="settings">
+        <button class="settings-btn" id="settingsBtn" type="button" aria-label="设置" aria-expanded="false" aria-controls="settingsPop" title="设置">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M19.4 13.5a7.7 7.7 0 0 0 .1-1.5 7.7 7.7 0 0 0-.1-1.5l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.4 7.4 0 0 0-2.6-1.5l-.4-2.5a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4l-.4 2.5a7.4 7.4 0 0 0-2.6 1.5l-2.4-1a.5.5 0 0 0-.6.2L2.5 8.3a.5.5 0 0 0 .1.6l2 1.6a7.7 7.7 0 0 0-.1 1.5 7.7 7.7 0 0 0 .1 1.5l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3a.5.5 0 0 0 .6.2l2.4-1a7.4 7.4 0 0 0 2.6 1.5l.4 2.5a.5.5 0 0 0 .5.4h3.8a.5.5 0 0 0 .5-.4l.4-2.5a7.4 7.4 0 0 0 2.6-1.5l2.4 1a.5.5 0 0 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg>
+        </button>
+        <div class="settings-pop" id="settingsPop" hidden>
+          <div class="settings-pop-head">自动审批</div>
+          <p>打开的级别直接放行。</p>
+          <div class="policy-rows">
+            <label class="policy-row">
+              <span class="policy-name"><b>L1</b><span>工作区内修改</span></span>
+              <span class="switch"><input type="checkbox" id="autoL1" aria-label="允许 L1 自动审批"><span class="switch-track" aria-hidden="true"></span></span>
+            </label>
+            <label class="policy-row">
+              <span class="policy-name"><b>L2</b><span>命令、删除、联网</span></span>
+              <span class="switch"><input type="checkbox" id="autoL2" aria-label="允许 L2 自动审批"><span class="switch-track" aria-hidden="true"></span></span>
+            </label>
+            <label class="policy-row l3">
+              <span class="policy-name"><b>L3</b><span>高危操作</span></span>
+              <span class="switch"><input type="checkbox" id="autoL3" aria-label="允许 L3 自动审批"><span class="switch-track" aria-hidden="true"></span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <button class="history-top-btn" id="historyBtn" type="button" title="历史会话与会议">历史</button>
+      <button class="pair-btn" id="pairBtn" type="button"><span class="pair-plus">＋</span>PAIR DEVICE</button>
+      <button class="pair-btn find-btn" id="findDeviceBtn" type="button" title="让已连接的手表响铃">FIND DEVICE</button>
+      <span class="status-pill connecting" id="bridgeStatus"><span class="dot"></span><span class="status-text">连接中</span></span>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <main class="showcase">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span>01</span> HARDWARE PREVIEW</div>
+          <h1>你的 Agent，<br><em>在掌心待命。</em></h1>
+          <p>语音下指令，触摸做审批。Pager 把电脑里的智能体变成一块随手可用的状态与审批终端。</p>
+        </div>
+        <div class="hero-facts" aria-label="硬件规格">
+          <div><b>1.83″</b><span>IPS DISPLAY</span></div>
+          <div><b>240×284</b><span>LOGICAL PX</span></div>
+          <div><b>203</b><span>PPI</span></div>
+        </div>
+      </section>
+
+      <section class="stage-section">
+        <div class="stage-toolbar">
+          <div class="stage-heading">
+            <span class="section-kicker">DEVICE / 01</span>
+            <span class="stage-title">屏幕预览</span>
+            <span class="zoom-note">1:1 · <b id="zoomLabel">2×</b></span>
+          </div>
+          <div class="stage-controls">
+            <label class="preview">
+              <span class="control-label">预览</span>
+              <select id="previewSel">
+                <option value="live">实时</option>
+                <option value="idle">空闲</option>
+                <option value="thinking">思考中</option>
+                <option value="running">运行中</option>
+                <option value="l2">L2 审批</option>
+                <option value="l3">L3 审批</option>
+                <option value="stats">资源</option>
+                <option value="done">完成</option>
+              </select>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="mascotToggle" checked>
+              <span class="switch-track" aria-hidden="true"></span>
+              <span>表情</span>
+            </label>
+            <span class="preview-badge" id="previewBadge" hidden>PREVIEW</span>
+            <div class="zoom" role="group" aria-label="缩放">
+              <button data-zoom="1">1×</button>
+              <button data-zoom="1.5">1.5×</button>
+              <button data-zoom="2" class="active">2×</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hw-stage">
+          <div class="hardware" id="hardware">
+            <div class="side-key pwr" title="PWR 电源键"></div>
+            <div class="side-key ptt-key" id="sidePtt" title="PTT 侧键（BOOT）"></div>
+            <div class="grille" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+            <div class="screen-scaler">
+              <div class="screen" id="screen">
+                <div class="status-bar">
+                  <span class="cat idle" id="face" aria-hidden="true"><i class="tail"></i><i class="ear l"><b></b></i><i class="ear r"><b></b></i><i class="head"><i class="eye l"><b></b></i><i class="eye r"><b></b></i><i class="nose"></i><i class="whisk l"></i><i class="whisk r"></i></i></span>
+                  <span class="state" id="stateLabel">连接中</span>
+                  <span class="detail" id="screenDetail">启动中</span>
+                  <span class="status-right" id="statusRight">
+                    <span class="risk-pill" id="riskLabel"></span>
+                    <span class="wifi" title="WiFi 已连接"><i></i><i></i><i></i></span>
+                    <span class="battery" title="电池示意（84%）"><i></i></span>
+                  </span>
+                </div>
+                <div class="screen-body" id="screenBody">
+                  <div class="empty">正在启动 Agent ACP…<br>首次连接约 5–15 秒。</div>
+                </div>
+                <div class="screen-notify" id="screenNotify" hidden>
+                  <span class="screen-notify-bar" id="screenNotifyBar"></span>
+                  <span class="screen-notify-title" id="screenNotifyTitle"></span>
+                  <span class="screen-notify-body" id="screenNotifyBody"></span>
+                </div>
+                <div class="page-dots" id="pageDots" aria-label="资源 / 主页 / 审批"><i></i><i class="active"></i><i></i></div>
+              </div>
+            </div>
+
+            <div class="glass" aria-hidden="true"></div>
+            <div class="brand"><i class="led"></i>PAGER</div>
+            <div class="usb" title="USB-C"></div>
+          </div>
+        </div>
+
+        <div class="stage-foot">
+          <div class="hw-note">
+            1.83″ IPS · 240×284 · 203 PPI · 300 cd/m² · 65K 色<br>
+            屏幕按 1:1 逻辑像素渲染；缩放只影响观看，不改变信息密度。
+          </div>
+          <div class="stage-hints">
+            <span>↔ 左右滑动切页</span>
+            <span>● 按住说话，双击开会</span>
+            <span>↔ 右滑资源 · 左滑审批</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="console">
+      <section class="console-card command-card">
+        <div class="console-head">
+          <span class="section-kicker">COMMAND / 指令</span>
+          <div class="command-tools">
+            <label class="profile-picker">
+              <span class="profile-label">AGENT</span>
+              <select id="profileSel" aria-label="Agent Profile">
+                <option value="hermes">HERMES</option>
+              </select>
+            </label>
+            <span class="key-hint">ENTER ↵</span>
+          </div>
+        </div>
+        <div class="composer">
+          <input id="text" placeholder="输入指令，回车发送（例如：列出当前目录的文件）" autocomplete="off">
+          <button id="send">发送</button>
+        </div>
+      </section>
+
+      <section class="console-card meeting-card">
+        <div class="console-head">
+          <span class="section-kicker">MEETING / 会议记录</span>
+          <div class="console-head-actions">
+            <button class="link-btn" id="meetingHistoryBtn" type="button">历史会议</button>
+            <button class="meet-btn" id="meetingBtn" type="button">开始记录</button>
+          </div>
+        </div>
+        <p class="meeting-status" id="meetingStatus">未开启。双击手表侧键，或点这里开始。结束时自动汇总。</p>
+        <div class="meeting-notes" id="meetingNotes"></div>
+      </section>
+
+      <section class="console-card session-card">
+        <div class="console-head">
+          <span class="section-kicker">SESSION / 事件流</span>
+          <div class="console-head-actions">
+            <button class="link-btn" id="sessionHistoryBtn" type="button">历史</button>
+            <button class="stop" id="cancel">取消当前任务</button>
+          </div>
+        </div>
+        <div class="approval-bar" id="approvalBar" hidden>
+          <span class="approval-risk" id="approvalRisk">L2</span>
+          <span class="approval-copy" id="approvalText">等待审批</span>
+          <button class="approve" id="approveBtn" type="button">批准</button>
+          <button class="deny" id="denyBtn" type="button">拒绝</button>
+        </div>
+        <div id="log"></div>
+      </section>
+
+      <section class="telemetry">
+        <div class="console-head">
+          <span class="section-kicker">TELEMETRY / 遥测</span>
+          <span class="ctx" id="ctxLabel">ctx --</span>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span class="metric-label">首字延迟</span><b id="mFirst">--</b><small>FIRST TOKEN</small></div>
+          <div class="metric"><span class="metric-label">本轮耗时</span><b id="mTurn">--</b><small>TURN TIME</small></div>
+          <div class="metric"><span class="metric-label">审批往返</span><b id="mAppr">--</b><small>APPROVAL</small></div>
+          <div class="metric"><span class="metric-label">完成轮次</span><b id="mTurns">0</b><small>TURNS</small></div>
+        </div>
+      </section>
+
+      <section class="console-card specs-card">
+        <div class="console-head">
+          <span class="section-kicker">HARDWARE / 硬件</span>
+          <span class="spec-tag">NO CAMERA</span>
+        </div>
+        <div class="specs">
+          <b>屏幕</b><span>1.83″ IPS · 240×284 · 300 cd/m² · 65K</span>
+          <b>触摸</b><span>CST816D 电容触摸（I2C）</span>
+          <b>主控</b><span>ESP32-S3R8 · 8MB PSRAM · 16MB Flash</span>
+          <b>网络</b><span>2.4G WiFi · BLE 5</span>
+          <b>音频</b><span>双 MIC 阵列 + AEC · 音频播放</span>
+          <b>电源</b><span>AXP2101 · 3.7V MX1.25 电池</span>
+          <b>其他</b><span>QMI8658 · PCF85063 RTC · Micro SD</span>
+          <b>摄像头</b><span class="no">无（本板不验证视觉）</span>
+        </div>
+        <div class="local-note" id="deviceNote"><span class="dot"></span>本机管理 · 127.0.0.1:8765 · 设备入口 WSS/TLS :8766</div>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="history-modal" id="historyModal" hidden>
+  <div class="history-dialog" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+    <div class="history-head">
+      <div>
+        <span class="section-kicker">ARCHIVE / 历史</span>
+        <h2 id="historyTitle">会话与会议</h2>
+      </div>
+      <button class="pair-close" id="historyClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="history-tabs" role="tablist">
+      <button type="button" class="history-tab active" data-history-tab="session" role="tab" aria-selected="true">会话记录</button>
+      <button type="button" class="history-tab" data-history-tab="meetings" role="tab" aria-selected="false">会议记录</button>
+    </div>
+    <div class="history-panels">
+      <div class="history-panel" id="historySessionPanel" role="tabpanel">
+        <p class="history-hint">本机保存的指令与回复（不含内部汇总指令）。切换 Agent 后仍可查阅。</p>
+        <div class="history-session" id="historySessionList"></div>
+      </div>
+      <div class="history-panel" id="historyMeetingsPanel" role="tabpanel" hidden>
+        <div class="history-meetings-layout">
+          <div class="history-meetings-list" id="historyMeetingsList"></div>
+          <article class="history-meeting-detail" id="historyMeetingDetail" hidden>
+            <button type="button" class="link-btn history-back" id="historyMeetingBack">← 列表</button>
+            <h3 id="historyMeetingTitle"></h3>
+            <div class="history-meeting-section">
+              <span class="history-meeting-kicker">纪要</span>
+              <div class="history-meeting-summary" id="historyMeetingSummary"></div>
+            </div>
+            <div class="history-meeting-section">
+              <span class="history-meeting-kicker">口述原文</span>
+              <div class="history-meeting-lines" id="historyMeetingLines"></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pair-modal" id="pairModal" hidden>
+  <div class="pair-dialog" role="dialog" aria-modal="true" aria-labelledby="pairTitle">
+    <div class="pair-head">
+      <div>
+        <span class="section-kicker">G1 / DEVICE ACCESS</span>
+        <h2 id="pairTitle">配对新设备</h2>
+      </div>
+      <button class="pair-close" id="pairClose" type="button" aria-label="关闭">×</button>
+    </div>
+    <p class="pair-copy">在设备上输入 6 位配对码。配对码 2 分钟内有效，只能使用一次；token 只会在设备端返回一次。</p>
+    <div class="pair-code" id="pairCode">------</div>
+    <div class="pair-expiry" id="pairExpiry">点击下方按钮生成配对码</div>
+    <div class="pair-grid">
+      <div><span>TLS 端口</span><b id="pairPort">--</b></div>
+      <div><span>mDNS</span><b id="pairMdns">--</b></div>
+      <div class="wide"><span>TLS SHA-256</span><code id="pairFp">--</code></div>
+    </div>
+    <div class="pair-actions">
+      <button id="pairGenerate" class="pair-primary" type="button">生成配对码</button>
+      <span class="pair-hint" id="pairHint">设备通过 WSS 连接</span>
+    </div>
+    <div class="pair-devices">
+      <div class="pair-devices-head"><span>已配对设备</span><span id="deviceCount">0</span></div>
+      <div id="deviceList" class="device-list"><div class="device-empty">暂无设备</div></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const STATE_TEXT = {
+  BOOTING:"启动中", IDLE:"空闲", THINKING:"思考中", RUNNING_TOOL:"执行工具",
+  WAITING_APPROVAL:"等待批准", DONE:"完成", ERROR:"错误", OFFLINE:"离线"
+};
+const FACE_CLASS = {
+  BOOTING:"thinking", IDLE:"idle", THINKING:"thinking", RUNNING_TOOL:"tool",
+  WAITING_APPROVAL:"wait", DONE:"done", ERROR:"err", OFFLINE:"err"
+};
+
+let S = { state:"BOOTING", stateDetail:"", transcript:[], tools:[], pending:[], metrics:{}, sessionTitle:"" };
+let assistantNodes = {};
+let lastAssistantText = "";
+let pending = null;
+let ws = null;
+let previewing = false;
+let held = false;
+let page = 0;   // -1 = 资源, 0 = 主页, 1 = 审批
+
+/* ---------- preview fixtures: 240x284 screen states, client-side only ---------- */
+const PREVIEWS = {
+  idle: {
+    state:"IDLE", detail:"等待指令",
+    text:"", tools:[], pending:null
+  },
+  thinking: {
+    state:"THINKING", detail:"正在理解你的指令",
+    text:"", tools:[], pending:null
+  },
+  running: {
+    state:"RUNNING_TOOL", detail:"运行命令 · powershell.exe",
+    text:"正在检查 CPU 和内存占用，稍等…",
+    tools:[
+      {id:"pv1", summary:"运行命令 · powershell.exe", status:"in_progress"},
+      {id:"pv2", summary:"读取 · notes.txt", status:"completed"},
+      {id:"pv3", summary:"改文件 · top3.ps1", status:"failed"}
+    ],
+    pending:null
+  },
+  l2: {
+    state:"WAITING_APPROVAL", detail:"删除文件夹",
+    text:"", tools:[],
+    pending:{ id:"pv-l2", risk:"L2", canApprove:true,
+      summary:"删除文件夹 · trash_demo",
+      title:"Approve command: rm -rf pager_workspace/trash_demo",
+      command:"rm -rf pager_workspace/trash_demo",
+      paths:["pager_workspace/trash_demo"],
+      riskReason:"命令含 rm -rf；目标在工作区内，属于 L2，需要你确认。" }
+  },
+  l3: {
+    state:"WAITING_APPROVAL", detail:"修改文件",
+    text:"", tools:[],
+    pending:{ id:"pv-l3", risk:"L3", canApprove:true,
+      summary:"修改文件 · transcribe.py",
+      title:"Approve edit: H:\\Projects\\local-stt\\transcribe.py",
+      command:"write_file H:\\Projects\\local-stt\\transcribe.py",
+      paths:["H:\\Projects\\local-stt\\transcribe.py"],
+      riskReason:"L3 高危操作，表盘可以批准或拒绝。" }
+  },
+  done: {
+    state:"DONE", detail:"本轮完成",
+    text:"CPU 占用最高的是两个 ffmpeg 和 GameViewerServer；内存前三：Cursor 1053MB、opencode-cli 655MB、微信 621MB。整机 64GB 内存空闲 37.5GB，当前 CPU 24.6%，整体不紧张。",
+    tools:[{id:"pv4", summary:"运行命令 · powershell.exe", status:"completed"}],
+    pending:null
+  },
+  stats: {
+    state:"IDLE", detail:"电脑资源",
+    text:"", tools:[], pending:null,
+    host:{cpu:24, ramPct:41, ramUsed:26.2, ramTotal:64, gpu:18, vramUsed:2.1, vramTotal:8, gpuTemp:52, netPct:22, netDown:48, netUp:6}
+  }
+};
+
+/* Preview mode also gives the right-hand session panel a clean, representative log. */
+const PREVIEW_LOGS = {
+  idle: [
+    ["ok", "Bridge 已连接 · Hermes 0.21.4"],
+    ["t", "等待指令 · 按 PTT 或输入文字"]
+  ],
+  thinking: [
+    ["u", "帮我看看现在 CPU 和内存占用"],
+    ["t", "Hermes 正在理解指令"],
+    ["w", "等待首字…"]
+  ],
+  running: [
+    ["u", "帮我看看现在 CPU 和内存占用"],
+    ["t", "运行命令 · powershell.exe"],
+    ["t", "读取 · notes.txt"],
+    ["w", "改文件 · top3.ps1 · failed"]
+  ],
+  l2: [
+    ["u", "清理工作区里的临时文件"],
+    ["w", "等待批准 · L2 · 删除文件夹 · trash_demo"]
+  ],
+  l3: [
+    ["u", "把这个脚本写到缓存目录"],
+    ["w", "等待批准 · L3 · 修改文件 · top3.ps1"]
+  ],
+  done: [
+    ["u", "帮我看看现在 CPU 和内存占用"],
+    ["t", "运行命令 · powershell.exe"],
+    ["ok", "完成 · 4.8s"]
+  ]
+};
+
+function renderPreviewLog(kind){
+  const log = $("log");
+  log.innerHTML = "";
+  (PREVIEW_LOGS[kind] || []).forEach(([cls, text]) => logLine(cls, text));
+}
+
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+const NOTIFY_LEVEL_COLOR = {info:"var(--screen-accent)", ok:"var(--screen-mint)", warn:"var(--screen-amber)", err:"var(--screen-danger)"};
+function showScreenNotify(e){
+  const box = $("screenNotify");
+  if (!box) return;
+  const lvl = (e.level || "info").toLowerCase();
+  $("screenNotifyBar").style.background = NOTIFY_LEVEL_COLOR[lvl] || NOTIFY_LEVEL_COLOR.info;
+  $("screenNotifyTitle").textContent = e.title || "通知";
+  $("screenNotifyBody").textContent = e.body || "";
+  box.hidden = false;
+  clearTimeout(showScreenNotify._timer);
+  const ttl = Math.max(1500, Math.min(60000, Number(e.ttlMs) || 6000));
+  showScreenNotify._timer = setTimeout(() => { box.hidden = true; }, ttl);
+}
+function pcPingBeep(){
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = 880;
+    g.gain.value = 0.08;
+    o.start();
+    o.stop(ctx.currentTime + 0.18);
+  } catch (_) {}
+}
+function esc(s){ const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }
+function agentName(){ return (S.profile && S.profile.name) || "Agent"; }
+function faceCanApprove(a){
+  const risk = (a && a.risk) || "";
+  return risk === "L2" || risk === "L3" || !!(a && a.canApprove);
+}
+
+function logLine(cls, text){
+  const div = document.createElement("div");
+  div.className = cls; div.textContent = text;
+  $("log").appendChild(div);
+  $("log").scrollTop = $("log").scrollHeight;
+}
+
+function faceHTML(cls, big){
+  return `<span class="cat ${big ? "big " : ""}${cls}" aria-hidden="true"><i class="tail"></i><i class="ear l"><b></b></i><i class="ear r"><b></b></i><i class="head"><i class="eye l"><b></b></i><i class="eye r"><b></b></i><i class="nose"></i><i class="whisk l"></i><i class="whisk r"></i></i></span>`;
+}
+function waitingBlock(cls, text, sub, dots){
+  return `<div class="waiting">${faceHTML(cls, true)}<div class="wait-copy"><div class="wait-text">${esc(text)}</div>${dots ? '<div class="dots"><i>.</i><i>.</i><i>.</i></div>' : ""}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>`;
+}
+
+const HOST_RING_R = 15.5;
+const HOST_RING_LEN = 2 * Math.PI * HOST_RING_R;
+const HOST_ARC_LEN = HOST_RING_LEN * 0.75;
+
+function hostRingClass(pct){
+  if (pct == null || pct < 0) return "";
+  if (pct >= 90) return " hot";
+  if (pct >= 70) return " warm";
+  return "";
+}
+function hostPct(v){
+  return (v != null && v >= 0) ? Math.round(v) + "%" : "--";
+}
+function hostGpuSub(h){
+  h = h || {};
+  if (h.gpu >= 0 || h.vramUsed >= 0 || h.gpuTemp >= 0) {
+    if (h.vramUsed >= 0 && h.vramTotal >= 0 && h.gpuTemp >= 0) {
+      return `${h.vramUsed}/${Math.round(h.vramTotal)}G·${Math.round(h.gpuTemp)}°`;
+    }
+    if (h.vramUsed >= 0 && h.vramTotal >= 0) {
+      return `${h.vramUsed}/${Math.round(h.vramTotal)}G`;
+    }
+    if (h.gpuTemp >= 0) return `${Math.round(h.gpuTemp)}°`;
+    return "";
+  }
+  return "无GPU";
+}
+function hostNetSub(h){
+  h = h || {};
+  const d = h.netDown, u = h.netUp;
+  if (d >= 0 && u >= 0) return `↓${d} ↑${u}M`;
+  if (d >= 0) return `↓${d}M`;
+  if (u >= 0) return `↑${u}M`;
+  return "--";
+}
+function hostRingSvg(pct){
+  const p = (pct != null && pct >= 0) ? Math.max(0, Math.min(100, pct)) : 0;
+  const off = HOST_ARC_LEN * (1 - p / 100);
+  const dash = `${HOST_ARC_LEN} ${HOST_RING_LEN}`;
+  return `<svg class="host-ring" viewBox="0 0 36 36" aria-hidden="true">` +
+    `<circle class="host-ring-spin" cx="18" cy="18" r="${HOST_RING_R}" />` +
+    `<circle class="host-ring-track" cx="18" cy="18" r="${HOST_RING_R}" stroke-dasharray="${dash}" />` +
+    `<circle class="host-ring-glow" cx="18" cy="18" r="${HOST_RING_R}" ` +
+      `stroke-dasharray="${dash}" stroke-dashoffset="${HOST_ARC_LEN}" data-off="${off}" style="--pct:${p}" />` +
+    `<circle class="host-ring-fill" cx="18" cy="18" r="${HOST_RING_R}" ` +
+      `stroke-dasharray="${dash}" stroke-dashoffset="${HOST_ARC_LEN}" data-off="${off}" style="--pct:${p}" />` +
+    `</svg>`;
+}
+function renderHostPage(body){
+  const h = S.host || {};
+  const wrap = document.createElement("div");
+  wrap.className = "host-grid";
+  [
+    {label:"CPU", pct:h.cpu, sub:""},
+    {label:"内存", pct:h.ramPct, sub:(h.ramUsed >= 0 && h.ramTotal >= 0) ? `${h.ramUsed}/${Math.round(h.ramTotal)}G` : "--"},
+    {label:"GPU", pct:h.gpu, sub:hostGpuSub(h)},
+    {label:"网络", pct:h.netPct, sub:hostNetSub(h)}
+  ].forEach((row) => {
+    const cell = document.createElement("div");
+    cell.className = "host-cell" + hostRingClass(row.pct);
+    cell.innerHTML =
+      `<div class="host-ring-wrap">${hostRingSvg(row.pct)}<b class="host-ring-val">${hostPct(row.pct)}</b></div>` +
+      `<div class="host-cell-foot">` +
+      `<span class="host-cell-label">${esc(row.label)}</span>` +
+      `<span class="host-cell-sub">${esc(row.sub || " ")}</span></div>`;
+    wrap.appendChild(cell);
+  });
+  body.appendChild(wrap);
+  requestAnimationFrame(() => {
+    wrap.querySelectorAll(".host-ring-fill, .host-ring-glow").forEach((el) => {
+      el.style.strokeDashoffset = el.getAttribute("data-off") || "0";
+    });
+  });
+}
+
+function render(){
+  const st = S.state || "BOOTING";
+  const onApproval = page === 1;
+  const onStats = page === -1;
+  $("stateLabel").textContent = STATE_TEXT[st] || st;
+  $("screenDetail").textContent = (S.stateDetail || "").replace(/^L[0-3]\s*·\s*/, "");
+  $("face").className = "cat " + (FACE_CLASS[st] || "idle");
+  $("riskLabel").textContent = pending ? pending.risk : "";
+  $("statusRight").classList.toggle("risk", !!pending);
+  $("statusRight").classList.toggle("l3", !!pending && pending.risk === "L3");
+  $("mFirst").textContent = S.metrics.lastFirstTokenMs != null ? S.metrics.lastFirstTokenMs+"ms" : "--";
+  $("mTurn").textContent  = S.metrics.lastTurnMs != null ? (S.metrics.lastTurnMs/1000).toFixed(1)+"s" : "--";
+  $("mAppr").textContent  = S.metrics.lastApprovalMs != null ? S.metrics.lastApprovalMs+"ms" : "--";
+  $("mTurns").textContent = S.metrics.turns || 0;
+  $("ctxLabel").textContent = S.usage && S.usage.used ? `ctx ${Math.round(S.usage.used/1000)}k` : "ctx --";
+
+  const body = $("screenBody");
+  body.classList.toggle("host-page", onStats);
+  body.innerHTML = "";
+
+  if (onStats) {
+    $("screenDetail").textContent = "电脑资源";
+    renderHostPage(body);
+  } else if (onApproval) {
+    if (pending) {
+      const a = pending;
+      const targetPath = (a.paths && a.paths[0]) || "";
+      const target = targetPath ? targetPath.split(/[\\/]/).filter(Boolean).pop() : "";
+      const card = document.createElement("div");
+      card.className = "approval" + (a.risk === "L3" ? " l3" : "");
+      card.innerHTML = `
+        <div class="approval-head"><span class="badge">${esc(a.risk)}</span>${esc(faceCanApprove(a) ? "等待你批准" : "需要回电脑确认")}</div>
+        <div class="approval-title">${esc(a.summary || a.title || "需要批准")}</div>
+        ${target ? `<div class="approval-target">目标 · ${esc(target)}</div>` : ""}
+        <div class="reason">${esc(a.riskReason || "")}</div>
+        <div class="approval-actions">
+          <button type="button" class="reject" data-decide="deny">拒绝</button>
+          <button type="button" class="approve" data-decide="allow"${faceCanApprove(a) ? "" : " disabled"}>${faceCanApprove(a) ? "批准" : "回电脑批准"}</button>
+        </div>
+        <button class="link" id="detailToggle" type="button">查看命令</button>
+        <div class="cmd" id="cmdDetail">${esc(a.command || "")}</div>
+      `;
+      body.appendChild(card);
+      const toggle = $("detailToggle");
+      if (toggle) {
+        toggle.onclick = () => {
+          const cmd = $("cmdDetail");
+          cmd.classList.toggle("show");
+          toggle.textContent = cmd.classList.contains("show") ? "收起命令" : "查看命令";
+        };
+      }
+      card.querySelectorAll("[data-decide]").forEach((btn) => {
+        btn.onclick = () => decideApproval(btn.dataset.decide);
+      });
+    } else {
+      body.innerHTML = waitingBlock("idle", "暂无待批", `${agentName()} 需要你确认时会出现在这里`);
+    }
+  } else if (S.meeting && S.meeting.on) {
+    body.innerHTML = waitingBlock("thinking", "会议记录中", "再双击侧键结束", true);
+  } else {
+    const hasTools = !!(S.tools && S.tools.length);
+    if (lastAssistantText) {
+      const div = document.createElement("div");
+      div.className = "assistant";
+      div.textContent = lastAssistantText;
+      body.appendChild(div);
+    }
+    if (!lastAssistantText && !hasTools) {
+      let fcls = "idle", text = "按住侧边键说话", sub = "或输入指令", dots = false;
+      if (st === "THINKING"){
+        fcls = "thinking"; text = `${agentName()} 正在思考`; sub = "让我想想…"; dots = true;
+      } else if (st === "BOOTING"){
+        const loggingIn = (S.stateDetail || "").includes("登录");
+        fcls = "thinking";
+        text = loggingIn ? "正在打开登录" : `正在启动 ${agentName()}`;
+        sub = loggingIn ? "请在这台电脑上完成登录" : "首次连接约 5–15 秒";
+        dots = true;
+      } else if (st === "RUNNING_TOOL"){
+        fcls = "tool"; text = "正在执行工具"; sub = "完成后会显示结果"; dots = true;
+      } else if (st === "WAITING_APPROVAL"){
+        fcls = "wait"; text = "有一项操作需要你确认"; sub = "左滑查看审批";
+      } else if (st === "DONE"){
+        fcls = "done"; text = "本轮完成"; sub = "按住侧边键继续";
+      } else if (st === "ERROR"){
+        fcls = "err"; text = "出错了"; sub = S.stateDetail || "查看会话记录";
+      } else if (st === "OFFLINE"){
+        fcls = "err"; text = "已离线"; sub = "检查 WiFi 和 bridge";
+      }
+      body.innerHTML = waitingBlock(fcls, text, sub, dots);
+    }
+
+    if (hasTools){
+      const wrap = document.createElement("div");
+      const active = S.tools.filter(t => t.status !== "completed" && t.status !== "failed").slice(-2);
+      const rows = active.length ? active : S.tools.slice(-1);
+      rows.forEach(t=>{
+        const cls = t.status === "completed" ? "done" : (t.status === "failed" ? "fail" : "");
+        const row = document.createElement("div");
+        row.className = "tool " + cls;
+        row.innerHTML = `<span class="name">${esc(t.summary || t.title || t.kind || "tool")}</span>` +
+                        `<span class="status">${esc(t.status === "completed" ? "✓" : (t.status === "failed" ? "✕" : "…"))}</span>`;
+        wrap.appendChild(row);
+      });
+      const doneN = S.tools.filter(t=>t.status === "completed").length;
+      const failN = S.tools.filter(t=>t.status === "failed").length;
+      if (doneN || failN){
+        const sum = document.createElement("div");
+        sum.className = "tool-summary";
+        sum.textContent = `✓ ${doneN} 个工具已完成` + (failN ? ` · ✕ ${failN} 失败` : "");
+        wrap.appendChild(sum);
+      }
+      body.appendChild(wrap);
+    }
+
+    if (pending && (lastAssistantText || hasTools)){
+      const hint = document.createElement("div");
+      hint.className = "pending-hint";
+      hint.textContent = "有待批事项 · 左滑查看审批 →";
+      body.appendChild(hint);
+    }
+  }
+
+  const dots = $("pageDots").children;
+  if (dots[0]) dots[0].classList.toggle("active", page === -1);
+  if (dots[1]) dots[1].classList.toggle("active", page === 0);
+  if (dots[2]) dots[2].classList.toggle("active", page === 1);
+
+  const bar = $("approvalBar");
+  if (bar) {
+    const showBar = !!pending && !previewing;
+    bar.hidden = !showBar;
+    if (showBar) {
+      const risk = pending.risk || "";
+      $("approvalRisk").textContent = risk || "审批";
+      $("approvalRisk").className = "approval-risk" + (risk === "L3" ? " l3" : "");
+      $("approvalText").textContent = pending.summary || pending.title || "需要审批";
+      $("approveBtn").textContent = "批准";
+      $("approveBtn").disabled = false;
+      $("denyBtn").disabled = false;
+    }
+  }
+}
+
+function setPage(p){
+  const next = p === 1 ? 1 : (p === -1 ? -1 : 0);
+  if (next === page) return;
+  page = next;
+  $("screenBody").scrollTop = 0;
+  render();
+}
+
+function renderLog(){
+  $("log").innerHTML = "";
+  const tr = S.transcript || [];
+  if (!tr.length){ logLine("t", "暂无会话记录 · 输入指令开始"); return; }
+  tr.slice(-40).forEach(m=>{
+    if (m.role === "user" && isMeetingPrompt(m.text)) return;
+    const who = m.role === "user" ? "你" : (m.profileName || agentName());
+    logLine(m.role === "user" ? "u" : "a", who + "： " + m.text);
+  });
+}
+
+function applySnapshot(s){
+  S = Object.assign({}, S, s);
+  pending = (S.pending && S.pending[0]) || null;
+  page = pending ? 1 : 0;
+  lastAssistantText = "";
+  const tr = S.transcript || [];
+  for (let i=tr.length-1;i>=0;i--){
+    if (tr[i].role === "assistant"){ lastAssistantText = tr[i].text; break; }
+  }
+  $("screenBody").scrollTop = 0;
+  if (typeof s.watchVolume === "number") showWatchVol(s.watchVolume);
+  if (s.watchVoice) showWatchVoice(s.watchVoice);
+  if (s.host) S.host = s.host;
+  renderProfile(); renderLog(); renderMeeting(); renderPolicy(); render();
+}
+
+function setComposerEnabled(on){
+  $("text").disabled = !on;
+  $("send").disabled = !on;
+  $("cancel").disabled = !on;
+  $("text").placeholder = on
+    ? "输入指令，回车发送（例如：列出当前目录的文件）"
+    : "预览模式 · 切回实时后可发送";
+}
+
+function setPreview(kind){
+  const sel = $("previewSel");
+  if (kind === "live"){
+    previewing = false;
+    sel.value = "live";
+    $("previewBadge").hidden = true;
+    setComposerEnabled(true);
+    page = 0;
+    fetch("/api/state").then(r=>r.json()).then(applySnapshot).catch(()=>toast("无法读取实时状态"));
+    return;
+  }
+  const p = PREVIEWS[kind];
+  if (!p) return;
+  previewing = true;
+  sel.value = kind;
+  $("previewBadge").hidden = false;
+  setComposerEnabled(false);
+  S.state = p.state;
+  S.stateDetail = p.detail;
+  S.tools = (p.tools || []).slice();
+  S.pending = p.pending ? [p.pending] : [];
+  pending = p.pending || null;
+  lastAssistantText = p.text || "";
+  S.metrics = {};
+  S.usage = null;
+  S.host = p.host || null;
+  page = kind === "l2" || kind === "l3" ? 1 : (kind === "stats" ? -1 : 0);
+  renderPreviewLog(kind);
+  $("screenBody").scrollTop = 0;
+  render();
+}
+
+function setBridgeStatus(mode, text){
+  const el = $("bridgeStatus");
+  if (!el) return;
+  el.classList.remove("connecting", "online", "offline");
+  el.classList.add(mode);
+  const label = el.querySelector(".status-text");
+  if (label) label.textContent = text;
+}
+
+/* ---------- Agent Profile ---------- */
+function renderProfile(){
+  const sel = $("profileSel");
+  if (!sel) return;
+  const active = (S.profile && S.profile.id) || "hermes";
+  if (![...sel.options].some(o => o.value === active)){
+    const o = document.createElement("option");
+    o.value = active; o.textContent = (S.profile?.name || active).toUpperCase();
+    sel.appendChild(o);
+  }
+  sel.value = active;
+}
+
+async function loadProfiles(){
+  try {
+    const r = await fetch("/api/profiles");
+    if (!r.ok) throw new Error("无法读取 Agent 列表");
+    const data = await r.json();
+    const sel = $("profileSel");
+    sel.innerHTML = "";
+    (data.profiles || []).forEach(p => {
+      if (!p.enabled) return;
+      const o = document.createElement("option");
+      o.value = p.id;
+      o.textContent = (p.name || p.id).toUpperCase();
+      if (p.description) o.title = p.description;
+      sel.appendChild(o);
+    });
+    if (data.active) sel.value = data.active;
+    if (data.profileError) logLine("w", "Agent 配置：" + data.profileError);
+  } catch (err) {
+    logLine("w", "Agent 列表不可用：" + err.message);
+  }
+}
+
+$("profileSel").onchange = async () => {
+  const sel = $("profileSel");
+  const id = sel.value;
+  const current = (S.profile && S.profile.id) || "";
+  if (!id || id === current) return;
+  const name = sel.options[sel.selectedIndex]?.textContent || id;
+  sel.disabled = true;
+  try {
+    const r = await fetch("/api/profile", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({id})
+    });
+    const data = await r.json();
+    if (!r.ok || !data.ok) throw new Error(data.error || "切换失败");
+    toast(`Agent 已切换 · ${name}`);
+    loadProfiles();
+  } catch (err) {
+    toast(err.message || "无法切换 Agent");
+    sel.value = current;
+  } finally {
+    sel.disabled = false;
+  }
+};
+
+/* ---------- G1 pairing ---------- */
+let pairExpiryTimer = null;
+let pairPollTimer = null;
+let pairExpiresAt = 0;
+let pairingActive = false;
+let knownDeviceIds = new Set();
+
+function pairCodeDisplay(code){
+  code = String(code || "");
+  return code.length === 6 ? code.slice(0,3) + " " + code.slice(3) : "------";
+}
+function updatePairExpiry(){
+  const left = Math.max(0, Math.ceil(pairExpiresAt - Date.now()/1000));
+  if (!pairingActive){ $("pairExpiry").textContent = "点击下方按钮生成配对码"; return; }
+  if (left <= 0){
+    pairingActive = false;
+    clearInterval(pairExpiryTimer);
+    $("pairExpiry").textContent = "配对码已过期 · 请重新生成";
+    return;
+  }
+  $("pairExpiry").textContent =
+    `有效 ${Math.floor(left/60)}:${String(left%60).padStart(2,"0")} · 仅可使用一次`;
+}
+async function startPairing(){
+  const btn = $("pairGenerate");
+  btn.disabled = true;
+  $("pairHint").textContent = "正在生成…";
+  try {
+    const r = await fetch("/device/pair/start", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({name: "Pager"})
+    });
+    const data = await r.json();
+    if (!r.ok || !data.ok) throw new Error(data.message || data.error || "无法生成配对码");
+    $("pairCode").textContent = pairCodeDisplay(data.code);
+    $("pairPort").textContent = data.tlsPort ?? "--";
+    $("pairMdns").textContent = data.mdnsName || "--";
+    $("pairFp").textContent = data.fingerprintDisplay || data.fingerprint || "证书尚未生成";
+    $("pairHint").textContent = data.secure
+      ? "设备通过 WSS/TLS 连接 · 证书指纹可用于 pin"
+      : "开发模式：设备入口未加密";
+    pairExpiresAt = Number(data.expiresAt) || (Date.now()/1000 + 120);
+    pairingActive = true;
+    clearInterval(pairExpiryTimer);
+    updatePairExpiry();
+    pairExpiryTimer = setInterval(updatePairExpiry, 1000);
+  } catch (err){
+    $("pairHint").textContent = err.message || "生成失败";
+    toast(err.message || "无法生成配对码");
+  } finally {
+    btn.disabled = false;
+  }
+}
+function renderDevices(devices){
+  const host = $("deviceList");
+  host.innerHTML = "";
+  $("deviceCount").textContent = devices.length;
+  if (!devices.length){
+    host.innerHTML = '<div class="device-empty">暂无设备</div>';
+    return;
+  }
+  const ids = new Set();
+  devices.forEach(d => {
+    ids.add(d.id);
+    if (knownDeviceIds.size && !knownDeviceIds.has(d.id)) toast(`新设备已配对 · ${d.name}`);
+    const row = document.createElement("div");
+    row.className = "device-row";
+    const state = d.revoked ? "已撤销" : (d.connected ? "在线" : "离线");
+    const stateClass = d.revoked ? "revoked" : (d.connected ? "online" : "offline");
+    row.innerHTML = `
+      <div class="device-main">
+        <b>${esc(d.name || "Pager")}</b>
+        <span>${esc(d.platform || "unknown")} · ${esc(d.id)}</span>
+      </div>
+      <span class="device-state ${stateClass}">${state}</span>
+      <button class="device-revoke" type="button" ${d.revoked ? "disabled" : ""}>撤销</button>`;
+    const btn = row.querySelector("button");
+    if (btn && !d.revoked) btn.onclick = () => revokeDevice(d);
+    host.appendChild(row);
+  });
+  knownDeviceIds = ids;
+}
+async function refreshDevicePanel(){
+  try {
+    const [infoRes, listRes] = await Promise.all([
+      fetch("/api/device/info"),
+      fetch("/device/list")
+    ]);
+    if (infoRes.ok){
+      const info = await infoRes.json();
+      $("pairPort").textContent = info.tlsPort ?? "--";
+      $("pairMdns").textContent = info.mdnsName || "--";
+      $("pairFp").textContent = info.fingerprintDisplay || info.fingerprint || "证书尚未生成";
+      $("deviceNote").innerHTML = '<span class="dot"></span>' +
+        `本机管理 · 127.0.0.1:${location.port || "8765"} · 设备入口 ${info.secure ? "WSS/TLS" : "HTTP"} :${esc(String(info.tlsPort || "8766"))}`;
+    }
+    if (listRes.ok){
+      const list = await listRes.json();
+      renderDevices(list.devices || []);
+    }
+  } catch (err){ /* keep the dialog usable while the bridge reconnects */ }
+}
+async function revokeDevice(device){
+  if (!confirm(`撤销 ${device.name || device.id}？设备会立即断开。`)) return;
+  try {
+    const r = await fetch("/device/revoke", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({id: device.id})
+    });
+    const data = await r.json();
+    if (!r.ok || !data.ok) throw new Error(data.error || "撤销失败");
+    toast(`已撤销 · ${device.name || device.id}`);
+    refreshDevicePanel();
+  } catch (err){ toast(err.message || "撤销失败"); }
+}
+function openPairing(){
+  $("pairModal").hidden = false;
+  document.body.classList.add("modal-open");
+  refreshDevicePanel();
+  clearInterval(pairPollTimer);
+  pairPollTimer = setInterval(refreshDevicePanel, 2500);
+  if (!pairingActive) startPairing();
+}
+function closePairing(){
+  $("pairModal").hidden = true;
+  document.body.classList.remove("modal-open");
+  clearInterval(pairPollTimer); pairPollTimer = null;
+  clearInterval(pairExpiryTimer); pairExpiryTimer = null;
+  pairingActive = false;
+}
+$("pairBtn").onclick = openPairing;
+$("findDeviceBtn").onclick = async () => {
+  try {
+    const r = await fetch("/api/find-device", {method:"POST", headers:{"Content-Type":"application/json"}, body:"{}"});
+    const d = await r.json();
+    if (!r.ok || !d.ok) toast(d.message || d.error || "寻呼失败");
+    else toast("已让设备响铃");
+  } catch (err) {
+    toast(err.message || "寻呼失败");
+  }
+};
+$("pairClose").onclick = closePairing;
+$("pairGenerate").onclick = startPairing;
+$("pairModal").addEventListener("click", (e) => { if (e.target === $("pairModal")) closePairing(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("pairModal").hidden) closePairing(); });
+
+function connect(){
+  if (ws && (ws.readyState === 0 || ws.readyState === 1)) {
+    if (ws.readyState === 1) setBridgeStatus("online", "Bridge 在线");
+    return;
+  }
+  const proto = location.protocol === "https:" ? "wss" : "ws";
+  setBridgeStatus("connecting", "连接中");
+  const sock = new WebSocket(`${proto}://${location.host}/ws`);
+  ws = sock;
+  sock.onopen = () => {
+    if (ws !== sock) return;
+    setBridgeStatus("online", "Bridge 在线");
+    if (!previewing) logLine("ok", "已连接到 bridge");
+  };
+  sock.onclose = () => {
+    if (ws !== sock) return;
+    setBridgeStatus("offline", "Bridge 离线");
+    if (!previewing) logLine("e", "bridge 断开，3 秒后重连");
+    setTimeout(connect, 3000);
+  };
+  sock.onmessage = (ev) => {
+    if (ws !== sock) return;
+    const e = JSON.parse(ev.data);
+    handle(e);
+  };
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") connect();
+});
+setInterval(() => {
+  if (ws && ws.readyState === 1) {
+    setBridgeStatus("online", "Bridge 在线");
+    send({type:"ping"});
+    return;
+  }
+  connect();
+}, 15000);
+function send(o){ if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); else toast("未连接"); }
+
+let volHold = 0;
+let volTimer = 0;
+function showWatchVoice(v){
+  const el = $("watchVoice");
+  if (!el) return;
+  const known = ["xiaoxiao","xiaoyi","yunxi","moss","yunyang"];
+  if (v === "yunyang") v = "moss";
+  if (known.includes(v)) el.value = v;
+}
+$("watchVoice").addEventListener("change", () => {
+  send({type:"voice", value:$("watchVoice").value});
+});
+
+function showWatchVol(v){
+  v = Math.max(0, Math.min(100, Number(v) || 0));
+  if (Date.now() < volHold) return;
+  $("watchVol").value = String(v);
+  $("watchVolNum").textContent = String(v);
+}
+$("watchVol").addEventListener("input", () => {
+  const v = Number($("watchVol").value);
+  $("watchVolNum").textContent = String(v);
+  volHold = Date.now() + 500;
+  clearTimeout(volTimer);
+  volTimer = setTimeout(() => send({type:"volume", value:v}), 120);
+});
+
+function handle(e){
+  if (e.type === "volume") { showWatchVol(e.value); return; }
+  if (e.type === "voice") { showWatchVoice(e.value); return; }
+  if (previewing) return;   // preview freezes the live stream; switching back re-fetches /api/state
+  switch(e.type){
+    case "snapshot": applySnapshot(e); break;
+    case "state":
+      S.state = e.state; S.stateDetail = e.detail;
+      if ((e.detail || "").includes("重连") || (e.detail || "").includes("连接中断")) lastAssistantText = "";
+      render(); break;
+    case "ready":
+      S.agentInfo = e.agentInfo; S.sessionId = e.sessionId;
+      if (e.profile) S.profile = e.profile;
+      renderProfile();
+      logLine("ok", `${agentName()} ${e.agentInfo?.version || ""} 已连接`); render(); break;
+    case "profile":
+      S.profile = e.profile;
+      S.transcript = []; S.tools = []; S.pending = []; pending = null; page = 0;
+      lastAssistantText = ""; assistantNodes = {};
+      renderProfile(); renderLog();
+      logLine("t", `切换到 Agent · ${agentName()}`);
+      render(); break;
+    case "user":
+      S.transcript.push({id:e.id, role:"user", text:e.text});
+      logLine("u", "你： " + e.text); lastAssistantText = "";
+      page = 0; $("screenBody").scrollTop = 0; render(); break;
+    case "assistant_delta":
+      if (!assistantNodes[e.id]) assistantNodes[e.id] = {text:""};
+      assistantNodes[e.id].text += e.text;
+      lastAssistantText = assistantNodes[e.id].text;
+      render(); break;
+    case "tool":
+      S.tools.push(e.tool);
+      logLine("t", `工具 · ${e.tool.summary || e.tool.title || e.tool.kind} · ${e.tool.status}`);
+      render(); break;
+    case "tool_update": {
+      const t = S.tools.find(x=>x.id===e.toolCallId);
+      if (t){
+        t.status = e.status || t.status;
+        if (e.title) t.title = e.title;
+        if (e.summary) t.summary = e.summary;
+      }
+      render(); break;
+    }
+    case "approval":
+      pending = e.approval;
+      S.pending = [pending];
+      page = 1; $("screenBody").scrollTop = 0;
+      logLine("w", `等待批准 · ${pending.risk} · ${pending.summary || pending.command || pending.title}`);
+      render(); break;
+    case "approval_auto":
+      logLine("ok", `已自动批准 · ${e.risk} · ${e.summary || ""}`);
+      S.metrics = Object.assign({}, S.metrics, {lastApprovalMs: 0});
+      render();
+      break;
+    case "approval_policy":
+      S.approvalPolicy = e.policy || {};
+      renderPolicy();
+      break;
+    case "approval_resolved":
+      logLine("ok", `审批 ${e.decision} · ${e.latencyMs}ms`);
+      pending = null; S.pending = [];
+      page = 0; $("screenBody").scrollTop = 0;
+      render(); break;
+    case "done":
+      S.metrics = Object.assign({}, S.metrics, {
+        lastTurnMs: e.durationMs,
+        lastFirstTokenMs: e.firstTokenMs,
+        turns: (S.metrics.turns||0)+1
+      });
+      logLine("ok", `完成 · ${(e.durationMs/1000).toFixed(1)}s`);
+      if (!pending){ page = 0; $("screenBody").scrollTop = 0; }
+      render(); break;
+    case "cancelled":
+      logLine("w", "已取消"); pending = null; S.pending = [];
+      page = 0; $("screenBody").scrollTop = 0;
+      render(); break;
+    case "error":
+      logLine("e", "错误： " + e.message); toast(e.message);
+      if (e.message) lastAssistantText = e.message;
+      if ($("approveBtn")) $("approveBtn").disabled = false;
+      if ($("denyBtn")) $("denyBtn").disabled = false;
+      break;
+    case "usage":
+      S.usage = e.usage; render(); break;
+    case "title":
+      S.sessionTitle = e.title; render(); break;
+    case "meeting":
+      S.meeting = {on:!!e.on, phase:e.phase || "idle", startedAt:e.startedAt, id:e.id, lines:e.lines || []};
+      renderMeeting(); render(); break;
+    case "host":
+      S.host = {
+        cpu:e.cpu, ramPct:e.ramPct, ramUsed:e.ramUsed, ramTotal:e.ramTotal,
+        gpu:e.gpu, vramUsed:e.vramUsed, vramTotal:e.vramTotal, gpuTemp:e.gpuTemp,
+        netPct:e.netPct, netDown:e.netDown, netUp:e.netUp
+      };
+      if (page === -1) render();
+      break;
+    case "toast":
+      showScreenNotify(e);
+      logLine("t", `通知 · ${e.title || ""}${e.body ? " · " + e.body : ""}`);
+      break;
+    case "ping_pc":
+      toast("手表在找你");
+      pcPingBeep();
+      logLine("w", "寻呼 · 设备找你");
+      break;
+    case "ring_device":
+      showScreenNotify({title:"响铃", body:"电脑在找你", level:"info", ttlMs:3500});
+      break;
+  }
+}
+
+function formatMeetingTime(sec){
+  sec = Math.max(0, Math.floor(Number(sec) || 0));
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+}
+function renderMeeting(){
+  const m = S.meeting || {on:false, phase:"idle", lines:[]};
+  const btn = $("meetingBtn");
+  const status = $("meetingStatus");
+  const notes = $("meetingNotes");
+  if (!btn || !status || !notes) return;
+  const recording = !!m.on;
+  const summarizing = m.phase === "summarizing";
+  btn.textContent = recording ? "结束并汇总" : (summarizing ? "正在汇总" : "开始记录");
+  btn.disabled = summarizing;
+  if (recording){
+    const elapsed = m.startedAt ? (Date.now() / 1000 - m.startedAt) : 0;
+    status.textContent = "记录中 " + formatMeetingTime(elapsed) + " · 再双击侧键结束并汇总";
+  } else if (summarizing){
+    status.textContent = "正在整理纪要，完成后会出现在会话里";
+  } else if ((m.lines || []).length){
+    status.textContent = "上一场已结束。纪要会发给当前 Agent。";
+  } else {
+    status.textContent = "未开启。双击手表侧键，或点这里开始。结束时自动汇总。";
+  }
+  notes.innerHTML = "";
+  (m.lines || []).forEach((line) => {
+    const row = document.createElement("div");
+    const t = document.createElement("b");
+    t.textContent = formatMeetingTime(line.t);
+    row.appendChild(t);
+    row.appendChild(document.createTextNode(line.text || ""));
+    notes.appendChild(row);
+  });
+  if (recording || summarizing) notes.scrollTop = notes.scrollHeight;
+}
+setInterval(() => {
+  if (S.meeting && S.meeting.on) renderMeeting();
+}, 1000);
+function renderPolicy(){
+  const policy = S.approvalPolicy || {};
+  const on = [];
+  ["L1", "L2", "L3"].forEach((level) => {
+    const el = $("auto" + level);
+    if (el) el.checked = !!policy[level];
+    if (policy[level]) on.push(level);
+  });
+  const btn = $("settingsBtn");
+  if (!btn) return;
+  btn.classList.toggle("has-auto", on.length > 0);
+  btn.title = on.length ? "自动审批 " + on.join(" ") : "设置";
+}
+function setSettingsOpen(open){
+  const pop = $("settingsPop");
+  const btn = $("settingsBtn");
+  if (!pop || !btn) return;
+  pop.hidden = !open;
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+$("settingsBtn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  setSettingsOpen($("settingsPop").hidden);
+});
+document.addEventListener("click", (e) => {
+  if ($("settingsPop").hidden || e.target.closest(".settings")) return;
+  setSettingsOpen(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape"){
+    if (!$("historyModal").hidden) closeHistory();
+    else setSettingsOpen(false);
+  }
+});
+function sendPolicy(){
+  const policy = {
+    L1: $("autoL1").checked,
+    L2: $("autoL2").checked,
+    L3: $("autoL3").checked,
+  };
+  S.approvalPolicy = policy;
+  send({type:"approval_policy", ...policy});
+}
+["autoL1", "autoL2", "autoL3"].forEach((id) => {
+  $(id).addEventListener("change", sendPolicy);
+});
+$("meetingBtn").onclick = () => {
+  if (previewing){ toast("预览模式：切回实时后再记录会议"); return; }
+  const recording = S.meeting && S.meeting.on;
+  send({type:"meeting", action: recording ? "stop" : "start"});
+};
+
+const MEETING_PROMPT_PREFIX = "请把下面的会议口述整理成纪要";
+function isMeetingPrompt(text){
+  return (text || "").startsWith(MEETING_PROMPT_PREFIX);
+}
+function formatHistoryTime(ts){
+  if (!ts) return "";
+  const d = new Date(ts * 1000);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function formatMeetingClock(sec){
+  sec = Math.max(0, Math.floor(Number(sec) || 0));
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+}
+let historyTab = "session";
+function setHistoryTab(tab){
+  historyTab = tab === "meetings" ? "meetings" : "session";
+  document.querySelectorAll(".history-tab").forEach((btn) => {
+    const on = btn.dataset.historyTab === historyTab;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-selected", on ? "true" : "false");
+  });
+  $("historySessionPanel").hidden = historyTab !== "session";
+  $("historyMeetingsPanel").hidden = historyTab !== "meetings";
+  if (historyTab === "session") loadHistorySession();
+  else loadHistoryMeetings();
+}
+function openHistory(tab){
+  $("historyModal").hidden = false;
+  document.body.classList.add("modal-open");
+  setHistoryTab(tab || "session");
+}
+function closeHistory(){
+  $("historyModal").hidden = true;
+  document.body.classList.remove("modal-open");
+}
+async function loadHistorySession(){
+  const host = $("historySessionList");
+  if (!host) return;
+  host.innerHTML = '<div class="history-empty">加载中…</div>';
+  let items = [];
+  try {
+    const res = await fetch("/api/session/history?limit=200");
+    const data = await res.json();
+    if (data.ok) items = data.items || [];
+  } catch (_err) {
+    items = [];
+  }
+  const visible = items.filter((row) => {
+    if (row.role === "user" && isMeetingPrompt(row.text)) return false;
+    return !!(row.text || "").trim();
+  });
+  if (!visible.length){
+    host.innerHTML = '<div class="history-empty">暂无已保存的会话。发送指令或完成会议汇总后会出现在这里。</div>';
+    return;
+  }
+  host.innerHTML = "";
+  visible.slice().reverse().forEach((row) => {
+    const el = document.createElement("div");
+    el.className = "history-msg " + (row.role === "user" ? "user" : "assistant");
+    if (row.meetingId) el.classList.add("meeting-summary");
+    const meta = document.createElement("div");
+    meta.className = "history-msg-meta";
+    meta.textContent = (row.role === "user" ? "你" : agentName()) + " · " + formatHistoryTime(row.ts);
+    if (row.meetingId) meta.textContent += " · 会议纪要";
+    const body = document.createElement("div");
+    body.className = "history-msg-body";
+    body.textContent = row.text || "";
+    el.appendChild(meta);
+    el.appendChild(body);
+    host.appendChild(el);
+  });
+}
+async function loadHistoryMeetings(){
+  const list = $("historyMeetingsList");
+  const detail = $("historyMeetingDetail");
+  if (!list || !detail) return;
+  detail.hidden = true;
+  list.hidden = false;
+  list.innerHTML = '<div class="history-empty">加载中…</div>';
+  let meetings = [];
+  try {
+    const res = await fetch("/api/meetings");
+    const data = await res.json();
+    if (data.ok) meetings = data.meetings || [];
+  } catch (_err) {
+    meetings = [];
+  }
+  if (!meetings.length){
+    list.innerHTML = '<div class="history-empty">暂无会议记录。结束录制并汇总后会保存在本机。</div>';
+    return;
+  }
+  list.innerHTML = "";
+  meetings.forEach((m) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "history-meeting-row";
+    btn.innerHTML =
+      `<span class="history-meeting-row-title">${esc(m.title || m.id)}</span>` +
+      `<span class="history-meeting-row-meta">${m.hasSummary ? "已汇总" : "仅口述"} · ${m.lineCount || 0} 段</span>` +
+      `<span class="history-meeting-row-preview">${esc(m.summaryPreview || "（尚无纪要）")}</span>`;
+    btn.onclick = () => showHistoryMeeting(m.id);
+    list.appendChild(btn);
+  });
+}
+async function showHistoryMeeting(id){
+  const list = $("historyMeetingsList");
+  const detail = $("historyMeetingDetail");
+  if (!list || !detail) return;
+  detail.hidden = false;
+  list.hidden = true;
+  $("historyMeetingTitle").textContent = id;
+  $("historyMeetingSummary").textContent = "加载中…";
+  $("historyMeetingLines").innerHTML = "";
+  try {
+    const res = await fetch("/api/meetings/" + encodeURIComponent(id));
+    const data = await res.json();
+    if (!data.ok || !data.meeting){
+      $("historyMeetingSummary").textContent = "找不到这场会议。";
+      return;
+    }
+    const m = data.meeting;
+    $("historyMeetingTitle").textContent = m.title || m.id;
+    $("historyMeetingSummary").textContent = (m.summary && m.summary.trim())
+      ? m.summary
+      : "（尚未生成纪要，可能汇总失败或没有识别到语音。）";
+    const linesHost = $("historyMeetingLines");
+    linesHost.innerHTML = "";
+    (m.lines || []).forEach((line) => {
+      const row = document.createElement("div");
+      row.className = "history-meeting-line";
+      row.innerHTML = `<b>${formatMeetingClock(line.t)}</b><span>${esc(line.text || "")}</span>`;
+      linesHost.appendChild(row);
+    });
+    if (!(m.lines || []).length){
+      linesHost.innerHTML = '<div class="history-empty">没有保存口述片段。</div>';
+    }
+  } catch (_err) {
+    $("historyMeetingSummary").textContent = "加载失败，请稍后重试。";
+  }
+}
+$("historyBtn").onclick = () => openHistory("session");
+$("sessionHistoryBtn").onclick = () => openHistory("session");
+$("meetingHistoryBtn").onclick = () => openHistory("meetings");
+$("historyClose").onclick = closeHistory;
+$("historyMeetingBack").onclick = () => {
+  $("historyMeetingDetail").hidden = true;
+  $("historyMeetingsList").hidden = false;
+};
+document.querySelectorAll(".history-tab").forEach((btn) => {
+  btn.onclick = () => setHistoryTab(btn.dataset.historyTab);
+});
+$("historyModal").addEventListener("click", (e) => {
+  if (e.target === $("historyModal")) closeHistory();
+});
+
+function submit(text){
+  text = (text || "").trim();
+  if (!text) return;
+  if (previewing){ toast("预览模式：切回实时后再发送"); return; }
+  send({type:"prompt", text});
+  $("text").value = "";
+}
+$("send").onclick = () => submit($("text").value);
+$("text").addEventListener("keydown", (e)=>{ if(e.key === "Enter") submit($("text").value); });
+$("mascotToggle").onchange = (e) => document.body.classList.toggle("no-mascot", !e.target.checked);
+$("cancel").onclick  = () => { if (previewing) toast("预览模式：不会发送取消"); else send({type:"cancel"}); };
+function decideApproval(decision){
+  if (previewing){ toast("预览模式：不会发送审批"); return; }
+  if (!pending){ toast("当前没有待批事项"); return; }
+  send({type:"approval", id:pending.id, decision});
+  document.querySelectorAll("#approveBtn, #denyBtn, [data-decide]").forEach((btn) => {
+    btn.disabled = true;
+  });
+}
+$("approveBtn").onclick = () => decideApproval("allow");
+$("denyBtn").onclick = () => decideApproval("deny");
+$("previewSel").onchange = () => setPreview($("previewSel").value);
+
+/* Horizontal swipe: 资源 <- 主页 -> 审批. Vertical drags still scroll the content. */
+let drag = null;
+const screenEl = $("screen");
+screenEl.addEventListener("pointerdown", (e) => {
+  if (e.target.closest("button")) return;
+  drag = {x:e.clientX, y:e.clientY, id:e.pointerId};
+  try { screenEl.setPointerCapture(e.pointerId); } catch(_){}
+});
+screenEl.addEventListener("pointerup", (e) => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag = null;
+  const z = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--zoom")) || 2;
+  const threshold = 28 * z;
+  if (Math.abs(dx) <= threshold || Math.abs(dx) <= Math.abs(dy) * 1.3) return;
+  if (page === 0) setPage(dx < 0 ? 1 : -1);
+  else if (page === -1 && dx < 0) setPage(0);
+  else if (page === 1 && dx > 0) setPage(0);
+});
+screenEl.addEventListener("pointercancel", () => { drag = null; });
+
+document.querySelectorAll("[data-zoom]").forEach(btn=>{
+  btn.onclick = () => {
+    const z = btn.dataset.zoom;
+    document.documentElement.style.setProperty("--zoom", z);
+    document.querySelectorAll("[data-zoom]").forEach(b=>b.classList.toggle("active", b===btn));
+    $("zoomLabel").textContent = z + "×";
+  };
+});
+
+/* Start smaller on narrow screens so the 240x284 screen stays visible. */
+const narrow = window.innerWidth <= 480;
+const compact = window.innerWidth <= 720;
+const laptop = window.innerWidth <= 1360 || window.innerHeight < 1050;
+const initialZoom = narrow ? "1" : (compact || laptop) ? "1.5" : null;
+if (initialZoom) {
+  document.documentElement.style.setProperty("--zoom", initialZoom);
+  document.querySelectorAll("[data-zoom]").forEach(b=>b.classList.toggle("active", b.dataset.zoom === initialZoom));
+  $("zoomLabel").textContent = initialZoom + "×";
+}
+
+/* Press-to-talk on the hardware side key. The screen has no bottom buttons. */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recog = null, heard = "";
+function talkingBusy(){
+  return ["BOOTING","THINKING","RUNNING_TOOL","OFFLINE"].includes(S.state || "BOOTING");
+}
+function startPTT(){
+  if (previewing){ toast("预览模式：切回实时后再说话"); return; }
+  if (talkingBusy()){ toast(`${agentName()} 正在执行，稍等`); return; }
+  held = true; heard = ""; render();
+  if (!SR){ held = false; $("text").focus();
+            toast("此浏览器不支持语音识别，请用文字输入"); render(); return; }
+  try{
+    recog = new SR();
+    recog.lang = "zh-CN"; recog.interimResults = true; recog.continuous = false;
+    recog.onresult = (ev) => {
+      let t = "";
+      for (let i=ev.resultIndex;i<ev.results.length;i++){
+        if (ev.results[i].isFinal) heard += ev.results[i][0].transcript;
+        else t += ev.results[i][0].transcript;
+      }
+      if (t) $("text").value = t;
+    };
+    recog.onerror = (ev) => toast("语音识别失败：" + ev.error);
+    recog.onend = () => {
+      held = false;
+      render();
+      const text = (heard || $("text").value || "").trim();
+      if (text) submit(text);
+      else toast("没有听清，请再说一次或用文字输入");
+    };
+    recog.start();
+  }catch(err){ toast("语音启动失败：" + err.message); }
+}
+function stopPTT(){
+  held = false;
+  render();
+  if (recog) { try{ recog.stop(); }catch(_){} }
+}
+$("sidePtt").addEventListener("pointerdown", (e)=>{ e.preventDefault(); startPTT(); });
+$("sidePtt").addEventListener("pointerup", (e)=>{ e.preventDefault(); stopPTT(); });
+$("sidePtt").addEventListener("pointerleave", ()=>{ if(held) stopPTT(); });
+
+const qp = new URLSearchParams(location.search).get("preview");
+if (qp && PREVIEWS[qp]) setPreview(qp);
+
+render();
+loadProfiles();
+refreshDevicePanel();
+connect();
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{
+  "default": "hermes",
+  "profiles": [
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "kind": "acp",
+      "command": "%LOCALAPPDATA%\\hermes\\bin\\hermes-acp.exe",
+      "args": [],
+      "cwd": "pager_workspace",
+      "env": {},
+      "enabled": true,
+      "description": "Hermes ACP · G0 回归基线"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "kind": "acp",
+      "command": "%LOCALAPPDATA%\\pager-agents\\cursor\\dist-package\\node.exe",
+      "args": [
+        "%LOCALAPPDATA%\\pager-agents\\cursor\\dist-package\\index.js",
+        "acp"
+      ],
+      "cwd": "pager_workspace",
+      "env": {},
+      "authMethod": "cursor_login",
+      "loginCommand": "%LOCALAPPDATA%\\pager-agents\\cursor\\dist-package\\node.exe",
+      "loginArgs": [
+        "%LOCALAPPDATA%\\pager-agents\\cursor\\dist-package\\index.js",
+        "login"
+      ],
+      "enabled": true,
+      "description": "Cursor ACP。未登录时会打开 Cursor 的登录窗口。"
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "kind": "acp",
+      "command": "%ProgramFiles%\\nodejs\\node.exe",
+      "args": [
+        "%LOCALAPPDATA%\\pager-agents\\node_modules\\@agentclientprotocol\\codex-acp\\dist\\index.js"
+      ],
+      "cwd": "pager_workspace",
+      "env": {},
+      "authMethod": "chat-gpt",
+      "enabled": true,
+      "description": "Codex ACP。未登录时会打开 ChatGPT 登录窗口。"
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "kind": "acp",
+      "command": "%ProgramFiles%\\nodejs\\node.exe",
+      "args": [
+        "%LOCALAPPDATA%\\pager-agents\\node_modules\\@agentclientprotocol\\claude-agent-acp\\dist\\index.js"
+      ],
+      "cwd": "pager_workspace",
+      "env": {},
+      "enabled": true,
+      "description": "Claude ACP。本机已能建立会话。"
+    },
+    {
+      "id": "workbuddy",
+      "name": "WorkBuddy",
+      "kind": "acp",
+      "command": "%USERPROFILE%\\.workbuddy\\binaries\\node\\versions\\22.22.2-6\\node.exe",
+      "args": [
+        "%ProgramFiles%\\WorkBuddy\\resources\\app.asar.unpacked\\cli\\bin\\codebuddy",
+        "--serve",
+        "--acp",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "0"
+      ],
+      "cwd": "pager_workspace",
+      "env": {
+        "CODEBUDDY_FORCE_LITE_WB_BUNDLE": "1",
+        "WORKBUDDY_CONFIG_DIR": "%USERPROFILE%\\.workbuddy",
+        "CODEBUDDY_CONFIG_DIR": "%USERPROFILE%\\.workbuddy"
+      },
+      "transport": "workbuddy-http",
+      "enabled": true,
+      "description": "WorkBuddy 桌面版。使用这台电脑上已经登录的 WorkBuddy。"
+    }
+  ]
+}

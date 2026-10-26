@@ -1,0 +1,2 @@
+# Optional offline speech-to-text (install into a separate venv; see scripts/dist/install.ps1)
+faster-whisper>=1.0

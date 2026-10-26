@@ -1,0 +1,145 @@
+/*
+ * SPDX-FileCopyrightText: 2023-2025 Espressif Systems (Shanghai) CO LTD
+ *
+ * SPDX-License-Identifier: CC0-1.0
+ */
+
+#include "bsp/esp-bsp.h"
+#include "esp_brookesia.hpp"
+#include "nvs_flash.h"
+#include "pager_pmu.h"
+#include "boost/thread.hpp"
+#ifdef ESP_UTILS_LOG_TAG
+#   undef ESP_UTILS_LOG_TAG
+#endif
+#define ESP_UTILS_LOG_TAG "Main"
+#include "esp_lib_utils.h"
+
+using namespace esp_brookesia;
+using namespace esp_brookesia::gui;
+using namespace esp_brookesia::systems::phone;
+
+constexpr bool EXAMPLE_SHOW_MEM_INFO = false;
+
+#if CONFIG_PAGER_QA
+extern "C" void pager_qa_arm_autostart(void *phone);
+#endif
+
+extern "C" void app_main(void)
+{
+    esp_err_t nvs_err = nvs_flash_init();
+    if (nvs_err == ESP_ERR_NVS_NO_FREE_PAGES || nvs_err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ESP_ERROR_CHECK(nvs_flash_init());
+    } else {
+        ESP_ERROR_CHECK(nvs_err);
+    }
+
+    ESP_UTILS_LOGI("Display ESP-Brookesia phone demo");
+    /* Power the panel rails before the controller is reset. */
+    ESP_ERROR_CHECK(pager_pmu_init());
+    /* Same LVGL task settings as the 2.16 build: 16 KB stack in PSRAM on
+     * core 1, so Wi-Fi bursts on core 0 cannot stall drawing. */
+    bsp_display_cfg_t bsp_cfg = {
+        .lv_adapter_cfg = ESP_LV_ADAPTER_DEFAULT_CONFIG(),
+        .rotation = ESP_LV_ADAPTER_ROTATE_0,
+        .tear_avoid_mode = ESP_LV_ADAPTER_TEAR_AVOID_MODE_NONE,
+        .touch_flags = {
+            .swap_xy = 0,
+            .mirror_x = 1,
+            .mirror_y = 1}};
+    bsp_cfg.lv_adapter_cfg.task_stack_size = 16 * 1024;
+    bsp_cfg.lv_adapter_cfg.stack_in_psram = true;
+    bsp_cfg.lv_adapter_cfg.task_core_id = 1;
+    ESP_UTILS_CHECK_NULL_EXIT(bsp_display_start_with_config(&bsp_cfg), "Start display failed");
+    ESP_UTILS_CHECK_ERROR_EXIT(bsp_display_backlight_on(), "Turn on display backlight failed");
+
+    /* Configure GUI lock */
+    LvLock::registerCallbacks([](int timeout_ms) {
+        esp_err_t ret = bsp_display_lock(timeout_ms);
+        ESP_UTILS_CHECK_FALSE_RETURN(ret == ESP_OK, false, "Lock failed (timeout_ms: %d)", timeout_ms);
+
+        return true;
+    }, []() {
+        bsp_display_unlock();
+        return true;
+    });
+
+    /* Create a phone object */
+    Phone *phone = new (std::nothrow) Phone();
+    ESP_UTILS_CHECK_NULL_EXIT(phone, "Create phone failed");
+
+    {
+        // When operating on non-GUI tasks, should acquire a lock before operating on LVGL
+        LvLockGuard gui_guard;
+
+        /* Begin the phone */
+        ESP_UTILS_CHECK_FALSE_EXIT(phone->begin(), "Begin failed");
+        // assert(phone->getDisplay().showContainerBorder() && "Show container border failed");
+
+        /* Init and install apps from registry */
+        std::vector<systems::base::Manager::RegistryAppInfo> inited_apps;
+        ESP_UTILS_CHECK_FALSE_EXIT(phone->initAppFromRegistry(inited_apps), "Init app registry failed");
+        ESP_UTILS_CHECK_FALSE_EXIT(phone->installAppFromRegistry(inited_apps), "Install app registry failed");
+
+        /* Create a timer to update the clock */
+        lv_timer_create([](lv_timer_t *t) {
+            time_t now;
+            struct tm timeinfo;
+            Phone *phone = (Phone *)t->user_data;
+
+            ESP_UTILS_CHECK_NULL_EXIT(phone, "Invalid phone");
+
+            time(&now);
+            localtime_r(&now, &timeinfo);
+
+            ESP_UTILS_CHECK_FALSE_EXIT(
+                phone->getDisplay().getStatusBar()->setClock(timeinfo.tm_hour, timeinfo.tm_min),
+                "Refresh status bar failed"
+            );
+        }, 1000, phone);
+    }
+
+#if CONFIG_PAGER_QA
+    pager_qa_arm_autostart(phone);
+#endif
+
+    if constexpr (EXAMPLE_SHOW_MEM_INFO) {
+        esp_utils::thread_config_guard thread_config({
+            .name = "mem_info",
+            .stack_size = 4096,
+        });
+        boost::thread([ = ]() {
+            char buffer[128];    /* Make sure buffer is enough for `sprintf` */
+            size_t internal_free = 0;
+            size_t internal_total = 0;
+            size_t external_free = 0;
+            size_t external_total = 0;
+
+            while (1) {
+                internal_free = heap_caps_get_free_size(MALLOC_CAP_INTERNAL);
+                internal_total = heap_caps_get_total_size(MALLOC_CAP_INTERNAL);
+                external_free = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
+                external_total = heap_caps_get_total_size(MALLOC_CAP_SPIRAM);
+                sprintf(buffer,
+                        "\t           Biggest /     Free /    Total\n"
+                        "\t  SRAM : [%8d / %8d / %8d]\n"
+                        "\t PSRAM : [%8d / %8d / %8d]",
+                        heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL), internal_free, internal_total,
+                        heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM), external_free, external_total);
+                ESP_UTILS_LOGI("\n%s", buffer);
+
+                {
+                    LvLockGuard gui_guard;
+                    ESP_UTILS_CHECK_FALSE_EXIT(
+                        phone->getDisplay().getRecentsScreen()->setMemoryLabel(
+                            internal_free / 1024, internal_total / 1024, external_free / 1024, external_total / 1024
+                        ), "Set memory label failed"
+                    );
+                }
+
+                boost::this_thread::sleep_for(boost::chrono::seconds(5));
+            }
+        }).detach();
+    }
+}

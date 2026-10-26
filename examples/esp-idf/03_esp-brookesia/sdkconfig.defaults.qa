@@ -1,0 +1,2 @@
+# QA harness build — merge via build_idf55_qa.cmd
+CONFIG_PAGER_QA=y
