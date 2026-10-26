@@ -10,7 +10,7 @@ idf_component_register(
     SRCS ${PROJ_SRCS_C} ${PROJ_SRCS_CPP}
     INCLUDE_DIRS ${PROJ_SRC} ${PROJ_SRC}/pager
     REQUIRES brookesia_core waveshare__esp32_s3_touch_amoled_2_16 esp_wifi esp_netif esp_event
-             nvs_flash driver esp_http_server esp_http_client esp_websocket_client mdns json
+             nvs_flash driver esp_http_server esp_http_client esp_websocket_client mdns cjson
              esp_codec_dev lvgl__lvgl
     EMBED_TXTFILES "pager/pager_cert.pem"
     WHOLE_ARCHIVE
