@@ -32,16 +32,17 @@ class MarkdownPolicyTests(unittest.TestCase):
             root = Path(temporary)
             (root / "config").mkdir()
             (root / "docs" / "assets").mkdir(parents=True)
-            (root / "config" / "markdown-audit.json").write_text(
-                (ROOT / "config" / "markdown-audit.json").read_text(encoding="utf-8"),
-                encoding="utf-8",
-            )
+            config_text = (ROOT / "config" / "markdown-audit.json").read_text(encoding="utf-8")
+            config_text = config_text.replace('"profile": "opensource"', '"profile": "single-product"')
+            (root / "config" / "markdown-audit.json").write_text(config_text, encoding="utf-8")
             (root / markdown_policy.HERO_IMAGE).write_bytes(b"test image")
-            for name in ("README.md", "README_ZH.md"):
-                content = (ROOT / name).read_text(encoding="utf-8")
-                if name == "README.md":
-                    content = content.replace("🌐 Product Page", "🌐 Store")
-                (root / name).write_text(content, encoding="utf-8")
+            english = (ROOT / "docs" / "WAVESHARE_README.md").read_text(encoding="utf-8")
+            chinese = (ROOT / "README_ZH.md").read_text(encoding="utf-8")
+            div = chinese.find("<div align")
+            if div >= 0:
+                chinese = chinese[div:]
+            (root / "README.md").write_text(english.replace("🌐 Product Page", "🌐 Store"), encoding="utf-8")
+            (root / "README_ZH.md").write_text(chinese, encoding="utf-8")
             contract, _ = markdown_policy.load_contract(root)
             failures: list[str] = []
             markdown_policy.check_homepage(root, "README.md", "README_ZH.md", contract, failures)
@@ -52,16 +53,19 @@ class MarkdownPolicyTests(unittest.TestCase):
             root = Path(temporary)
             (root / "config").mkdir()
             (root / "docs" / "assets").mkdir(parents=True)
-            (root / "config" / "markdown-audit.json").write_text(
-                (ROOT / "config" / "markdown-audit.json").read_text(encoding="utf-8"),
-                encoding="utf-8",
-            )
+            config_text = (ROOT / "config" / "markdown-audit.json").read_text(encoding="utf-8")
+            config_text = config_text.replace('"profile": "opensource"', '"profile": "single-product"')
+            (root / "config" / "markdown-audit.json").write_text(config_text, encoding="utf-8")
             (root / markdown_policy.HERO_IMAGE).write_bytes(b"test image")
-            for name in ("README.md", "README_ZH.md"):
-                content = (ROOT / name).read_text(encoding="utf-8")
-                if name == "README.md":
-                    content = content.replace('<a href="README_ZH.md">简体中文</a>', "简体中文 README_ZH.md")
-                (root / name).write_text(content, encoding="utf-8")
+            english = (ROOT / "docs" / "WAVESHARE_README.md").read_text(encoding="utf-8").replace(
+                '<a href="README_ZH.md">简体中文</a>', "简体中文 README_ZH.md"
+            )
+            chinese = (ROOT / "README_ZH.md").read_text(encoding="utf-8")
+            div = chinese.find("<div align")
+            if div >= 0:
+                chinese = chinese[div:]
+            (root / "README.md").write_text(english, encoding="utf-8")
+            (root / "README_ZH.md").write_text(chinese, encoding="utf-8")
             contract, _ = markdown_policy.load_contract(root)
             failures: list[str] = []
             markdown_policy.check_homepage(root, "README.md", "README_ZH.md", contract, failures)

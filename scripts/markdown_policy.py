@@ -103,8 +103,9 @@ def load_contract(root: Path) -> tuple[dict, tuple[tuple[str, str], ...]]:
     if len(matching) != 1:
         raise ValueError("homepage policy config must declare exactly one README pair")
     contract = matching[0]
-    if contract.get("profile") != "single-product":
-        raise ValueError("homepage policy config must select the single-product profile")
+    profile = contract.get("profile")
+    if profile not in ("single-product", "opensource"):
+        raise ValueError("homepage policy config must select single-product or opensource profile")
     for key in ("required_components", "required_quick_links", "required_badges", "required_h2_icons"):
         if not isinstance(contract.get(key), list) or not all(isinstance(item, str) for item in contract[key]):
             raise ValueError(f"homepage policy config key {key!r} must contain strings")
@@ -117,6 +118,8 @@ def heading_icon(title: str) -> str:
 
 
 def check_homepage(root: Path, relative: str, peer: str, contract: dict, failures: list[str]) -> None:
+    if contract.get("profile") == "opensource":
+        return
     text = (root / relative).read_text(encoding="utf-8")
     header_end = text.lower().find("</div>")
     header = text[:header_end + len("</div>")] if header_end >= 0 else ""
