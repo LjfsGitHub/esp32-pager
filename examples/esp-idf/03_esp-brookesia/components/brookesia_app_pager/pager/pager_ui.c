@@ -517,6 +517,7 @@ static lv_timer_t *s_disp_timer;
 static void reply_service(void);
 static volatile int s_qa_swipe_req;
 volatile uint32_t pager_ui_beat;
+volatile uint32_t pager_lcd_stage;
 #if CONFIG_PAGER_QA
 static volatile bool s_qa_shot_req;
 static void ui_qa_shot_cb(void *);

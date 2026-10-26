@@ -61,3 +61,7 @@ void pager_ui_voice(int index);
 void pager_ui_volume(int volume);
 void pager_ui_ping_pc(void);
 void pager_ui_macro(const char *id);
+
+/** Debug counters for network/UI watchdog logs. */
+extern volatile uint32_t pager_ui_beat;
+extern volatile uint32_t pager_lcd_stage;

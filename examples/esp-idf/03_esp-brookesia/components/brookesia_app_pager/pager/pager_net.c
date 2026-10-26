@@ -1819,8 +1819,6 @@ static void net_task(void *arg)
                 static int64_t beat_at;
                 int64_t now = esp_timer_get_time();
                 if (now - beat_at > 2000000) {
-                    extern volatile uint32_t pager_ui_beat;
-                    extern volatile uint32_t pager_lcd_stage;
                     static uint32_t last_beat;
                     static int dumped;
                     uint32_t beat = pager_ui_beat;
