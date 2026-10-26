@@ -124,9 +124,20 @@ python -m pager_bridge.serve
 
 ---
 
-## 贡献
+## 贡献与共同维护
 
-欢迎 Issue 与 Pull Request。请勿提交含个人路径、API Key、设备 token 或聊天/会议记录的变更。
+仓库是 **公开** 的，任何人都可以查看、Fork 和修改（[MIT 许可证](LICENSE)）。
+
+| 你想做什么 | 怎么做 |
+|------------|--------|
+| **只看代码 / 下载使用** | 打开 [github.com/LjfsGitHub/esp32-pager](https://github.com/LjfsGitHub/esp32-pager)，点 **Code → Download ZIP** 或 `git clone` |
+| **改代码并提议合并** | 登录 GitHub → **Fork** 到你账号 → 本地改完 → 推到你 Fork → 在原仓点 **Pull Request** |
+| **报 bug / 提功能** | 仓库 **Issues → New issue**（可先搜是否已有同类讨论） |
+| **成为长期维护者** | 联系仓库所有者：GitHub 仓库 **Settings → Collaborators → Add people**，邀请你的 GitHub 用户名（需对方接受） |
+
+建议流程与规范见 [CONTRIBUTING_ZH.md](CONTRIBUTING_ZH.md)（英文 [CONTRIBUTING.md](CONTRIBUTING.md)）。提交 PR 前请勿包含个人路径、API Key、设备 token、聊天/会议记录；固件请说明对应分支（`main` / `round-amoled-1_75c`）。
+
+若希望社区讨论设计而不只开 Issue，可在仓库 **Settings → General → Features** 中打开 **Discussions**（所有者操作一次即可）。
 
 ---
 
