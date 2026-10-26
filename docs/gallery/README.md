@@ -4,7 +4,9 @@
 
 | 文件 | 说明 |
 |------|------|
-| [web-agent-center.png](web-agent-center.png) | PC 端 Web 管理界面（Agent Center / `bridge/static`） |
+| [web-agent-center.png](web-agent-center.png) | PC Web 界面（静态参考） |
+| [web-agent-center-live.png](web-agent-center-live.png) | PC Web 界面（本地 `8765` 实时截图） |
+| [github-social-preview.png](github-social-preview.png) | GitHub Social preview 1280×640 |
 | [ui-v3-preview.png](ui-v3-preview.png) | 设备端 UI v3 设计预览 |
 | [ui-thinking.png](ui-thinking.png) | Agent 思考中状态 |
 | [ui-l3-swipe.png](ui-l3-swipe.png) | L3 审批（需回 PC 批准） |
