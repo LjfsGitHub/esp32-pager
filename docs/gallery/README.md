@@ -4,7 +4,9 @@
 
 | 文件 | 说明 |
 |------|------|
-| [web-agent-center.png](web-agent-center.png) | PC 端 Web 管理界面（Agent Center / `bridge/static`） |
+| [web-agent-center.png](web-agent-center.png) | PC Web 界面（静态参考） |
+| [web-agent-center-live.png](web-agent-center-live.png) | PC Web 界面（本地 `8765` 实时截图） |
+| [github-social-preview.png](github-social-preview.png) | GitHub Social preview 1280×640 |
 | [ui-v3-preview.png](ui-v3-preview.png) | 设备端 UI v3 设计预览 |
 | [device-square-home.png](device-square-home.png) | 2.16" 方屏 AMOLED — 主页（真机截图） |
 | [device-square-host-stats.png](device-square-host-stats.png) | 2.16" — 电脑资源页 |

@@ -22,7 +22,7 @@
 
 本地浏览器打开 `http://127.0.0.1:8765/`：配对、发指令、看会话与主机指标；左侧设备预览与手表三页 UI 一致。
 
-![Pager Web Agent Center](docs/gallery/web-agent-center.png)
+![Pager Web Agent Center](docs/gallery/web-agent-center-live.png)
 
 ### 支持的开发板（Waveshare AMOLED）
 
