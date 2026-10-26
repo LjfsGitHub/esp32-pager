@@ -1,6 +1,8 @@
-# ESP32 Pager — 开源 AI Agent 手表 + PC Bridge
+# ESP32 Pager — Open-source AI Agent Watch + PC Bridge
 
-**MIT 开源**：任何人可自由使用、修改与分发。本项目将 Waveshare ESP32-S3 AMOLED 开发板变成可语音对话、审批 AI 指令、查看电脑资源的「Pager」手表，并通过 Windows 上的 **Pager Bridge** 连接 Hermes、Cursor、Codex、Claude、WorkBuddy 等 ACP 智能体。
+[简体中文](README_ZH.md)
+
+**MIT 开源**（中文说明见 [README_ZH.md](README_ZH.md)）：任何人可自由使用、修改与分发。本项目将 Waveshare ESP32-S3 AMOLED 开发板变成可语音对话、审批 AI 指令、查看电脑资源的「Pager」手表，并通过 Windows 上的 **Pager Bridge** 连接 Hermes、Cursor、Codex、Claude、WorkBuddy 等 ACP 智能体。
 
 > 固件上游基于 [Waveshare ESP32-S3-Touch-AMOLED-2.16 官方仓库](https://gitee.com/waveshare/ESP32-S3-Touch-AMOLED-2.16)（见 [docs/WAVESHARE_README.md](docs/WAVESHARE_README.md)）。圆屏 1.75C 为同系列 BSP + 本地补丁（[ROUND_BSP_PATCH.md](examples/esp-idf/03_esp-brookesia/patches/ROUND_BSP_PATCH.md)）。
 

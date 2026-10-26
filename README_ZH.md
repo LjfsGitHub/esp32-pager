@@ -1,3 +1,9 @@
+# ESP32 Pager — 开源 AI Agent 手表 + PC Bridge
+
+[English](README.md)
+
+> 下方为 Waveshare 2.16 开发板原厂说明保留档；Pager 项目总览与截图见 [README.md](README.md) 与 [docs/gallery/](docs/gallery/)。
+
 <div align="center">
   <h1>ESP32-S3-Touch-AMOLED-2.16</h1>
   <p><strong>ESP32-S3 2.16 英寸 480 × 480 QSPI AMOLED 触摸开发板</strong></p>
